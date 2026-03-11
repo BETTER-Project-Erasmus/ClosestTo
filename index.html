@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Get Closest To</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#eef2f7;
+margin:0;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+#container{
+display:flex;
+gap:40px;
+justify-content:center;
+margin-top:20px;
+}
+
+.column{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.2);
+}
+
+#left{width:260px;}
+#right{width:420px;text-align:center;}
+
+select,input[type="number"]{
+margin-top:5px;
+margin-bottom:15px;
+width:100%;
+padding:6px;
+}
+
+button{
+width:100%;
+height:42px;
+margin-top:10px;
+border:none;
+border-radius:6px;
+background:#4c7ef3;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#3c66c8;
+}
+
+.operationRow{
+display:flex;
+align-items:center;
+gap:8px;
+margin-bottom:6px;
+}
+
+.operationSymbol{
+font-size:28px;
+font-weight:bold;
+}
+
+#targetDisplay{
+font-size:26px;
+margin-bottom:20px;
+}
+
+#numbers{
+margin-top:30px;
+display:flex;
+justify-content:center;
+gap:20px;
+}
+
+.numberBox{
+
+width:75px;
+height:75px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:38px;
+font-weight:bold;
+
+background:#4c7ef3;
+color:white;
+
+border-radius:10px;
+
+}
+
+.zoneTitle{
+margin-top:10px;
+font-weight:bold;
+}
+
+#buttonsRight{
+margin-top:25px;
+display:flex;
+gap:10px;
+justify-content:center;
+}
+
+#buttonsRight button{
+width:150px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Get Closest To...</h1>
+
+<div id="container">
+
+<div id="left" class="column">
+
+<div class="zoneTitle">🎯 Target number</div>
+<input type="number" id="target" value="20">
+
+<div class="zoneTitle">🧮 Allowed operations</div>
+
+<div class="operationRow"><input type="checkbox"><span class="operationSymbol">+</span></div>
+<div class="operationRow"><input type="checkbox"><span class="operationSymbol">−</span></div>
+<div class="operationRow"><input type="checkbox"><span class="operationSymbol">×</span></div>
+<div class="operationRow"><input type="checkbox"><span class="operationSymbol">÷</span></div>
+
+<div class="zoneTitle">🔢 Number of digits</div>
+
+<select id="digitCount">
+<option value="2">2 digits</option>
+<option value="3" selected>3 digits</option>
+<option value="4">4 digits</option>
+</select>
+
+<div class="zoneTitle">🔶 Big numbers</div>
+
+<label>
+<input type="checkbox" id="bigNumbers">
+Include 25, 50, 75, 100
+</label>
+
+<button onclick="startGame()">Let's go !</button>
+
+</div>
+
+<div id="right" class="column">
+
+<div id="targetDisplay">
+Target : <b id="targetValue">20</b>
+</div>
+
+<div id="numbers"></div>
+
+<div id="buttonsRight">
+<button onclick="newNumbers()">New numbers</button>
+<button onclick="resetGame()">Reset</button>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let currentDigits=3
+
+function startGame(){
+
+let target=document.getElementById("target").value
+document.getElementById("targetValue").innerText=target
+
+currentDigits=document.getElementById("digitCount").value
+
+drawAnimatedNumbers(currentDigits)
+
+}
+
+function newNumbers(){
+
+drawAnimatedNumbers(currentDigits)
+
+}
+
+function randomSmall(){
+return Math.floor(Math.random()*9)+1
+}
+
+function randomBig(){
+
+let big=[25,50,75,100]
+return big[Math.floor(Math.random()*big.length)]
+
+}
+
+function drawAnimatedNumbers(n){
+
+let container=document.getElementById("numbers")
+container.innerHTML=""
+
+let bigMode=document.getElementById("bigNumbers").checked
+
+let finalNumbers=[]
+
+for(let i=0;i<n;i++){
+
+if(bigMode && Math.random()<0.3)
+finalNumbers.push(randomBig())
+else
+finalNumbers.push(randomSmall())
+
+}
+
+for(let i=0;i<n;i++){
+
+let box=document.createElement("div")
+box.className="numberBox"
+box.innerText="?"
+
+container.appendChild(box)
+
+animateBox(box,finalNumbers[i],i)
+
+}
+
+}
+
+function animateBox(box,finalNumber,index){
+
+let duration=1000+index*400
+
+let interval=setInterval(()=>{
+
+box.innerText=Math.floor(Math.random()*9)+1
+
+},80)
+
+setTimeout(()=>{
+
+clearInterval(interval)
+box.innerText=finalNumber
+
+},duration)
+
+}
+
+function resetGame(){
+
+document.getElementById("numbers").innerHTML=""
+
+}
+
+</script>
+
+</body>
+</html>
