@@ -133,10 +133,10 @@ width:150px;
 
 <div class="zoneTitle">🧮 Allowed operations</div>
 
-<div class="operationRow"><input type="checkbox"><span class="operationSymbol">+</span></div>
-<div class="operationRow"><input type="checkbox"><span class="operationSymbol">−</span></div>
-<div class="operationRow"><input type="checkbox"><span class="operationSymbol">×</span></div>
-<div class="operationRow"><input type="checkbox"><span class="operationSymbol">÷</span></div>
+<div class="operationRow"><input type="checkbox" id="opAdd"><span class="operationSymbol">+</span></div>
+<div class="operationRow"><input type="checkbox" id="opSub"><span class="operationSymbol">−</span></div>
+<div class="operationRow"><input type="checkbox" id="opMul"><span class="operationSymbol">×</span></div>
+<div class="operationRow"><input type="checkbox" id="opDiv"><span class="operationSymbol">÷</span></div>
 
 <div class="zoneTitle">🔢 Number of digits</div>
 
@@ -166,6 +166,10 @@ Include 25, 50, 75, 100
 Target : <b id="targetValue">20</b>
 </div>
 
+<div id="operationsDisplay" style="font-size:22px;margin-bottom:15px;">
+Operations allowed : <span id="ops"></span>
+</div>
+  
 <div id="numbers"></div>
 
 <div id="buttonsRight">
@@ -187,6 +191,15 @@ let target=document.getElementById("target").value
 document.getElementById("targetValue").innerText=target
 
 currentDigits=document.getElementById("digitCount").value
+
+let ops=[]
+
+if(document.getElementById("opAdd").checked) ops.push("+")
+if(document.getElementById("opSub").checked) ops.push("−")
+if(document.getElementById("opMul").checked) ops.push("×")
+if(document.getElementById("opDiv").checked) ops.push("÷")
+
+document.getElementById("ops").innerText=ops.join("  ")
 
 drawAnimatedNumbers(currentDigits)
 
