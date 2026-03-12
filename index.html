@@ -185,8 +185,9 @@ Include 25, 50, 75, 100
 Target : <b id="targetValue">20</b>
 </div>
 
-<div id="operationsDisplay" style="font-size:22px;margin-bottom:15px;">
-Operations allowed : <span id="ops"></span>
+<div id="operationsDisplay" style="margin-bottom:20px;">
+<div style="margin-bottom:8px;font-size:20px;">Operations allowed</div>
+<div id="ops" style="display:flex;justify-content:center;gap:10px;"></div>
 </div>
   
 <div id="numbers"></div>
@@ -218,7 +219,15 @@ if(document.getElementById("opSub").checked) ops.push("−")
 if(document.getElementById("opMul").checked) ops.push("×")
 if(document.getElementById("opDiv").checked) ops.push("÷")
 
-document.getElementById("ops").innerText=ops.join("  ")
+let container=document.getElementById("ops")
+container.innerHTML=""
+
+ops.forEach(op=>{
+let box=document.createElement("div")
+box.className="operationBox"
+box.innerText=op
+container.appendChild(box)
+})
 
 drawAnimatedNumbers(currentDigits)
 
